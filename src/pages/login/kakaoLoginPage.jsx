@@ -4,9 +4,11 @@ import styled from "styled-components";
 import { useEffect, useState } from "react";
 
 const LoginPage = () => {
-  const [data, setData] = useState("Loading...");
+  const [data, setData] = useState("Loading..."); // 초기 상태
+
+  // API 호출
   useEffect(() => {
-    fetch("http://172.10.7.65:4000/api/data")
+    fetch("http://172.10.7.69:4000/api/data")
       .then((response) => response.text()) // 문자열 응답 처리
       .then((result) => setData(result)) // 상태 업데이트
       .catch((error) => {
@@ -22,7 +24,7 @@ const LoginPage = () => {
     </div>
   );
 
-  /*return (/
+  /*return (
     <Layout>
       <Logo />
       <ButtonWrapper>

@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useState } from "react";
 import { ReactComponent as TopBar } from "../../assets/home/top_bar.svg";
 import NavigationBar from "../../components/common/NavigationBar";
-import RoomItem from "./RoomItem";
+import RoomItem from "../../components/home/RoomItem";
 import { useNavigate } from "react-router";
 
 const HomePage = () => {
@@ -13,7 +13,23 @@ const HomePage = () => {
   ];
 
   const [results, setResults] = useState(dummyData);
+  const [newMember, setNewMember] = useState("");
   const navigate = useNavigate();
+
+  const handleInputChange = (e) => {
+    setNewMember(e.target.value);
+  };
+
+  const handleInviteClick = () => {
+    if (newMember.trimEnd() !== "") {
+      const updatedResults = results.map((room, index) => {
+        if (index === 0) {
+          return { ...room, member: room.member + newMember + "," };
+        }
+        return room;
+      });
+    }
+  };
   const onChange = (e) => {
     setResults(e.target.value);
   };
@@ -22,7 +38,9 @@ const HomePage = () => {
       <TopBar />
       <TopContainer>
         <TextWrapper>새로운 방을 만들고 싶으신가요?</TextWrapper>
-        <ButtonWrapper>방 생성</ButtonWrapper>
+        <ButtonWrapper onClick={() => navigate("/createroom")}>
+          방 생성
+        </ButtonWrapper>
       </TopContainer>
       {results &&
         results.map((result, index) => (
@@ -30,7 +48,7 @@ const HomePage = () => {
             key={result.id}
             title={result.title}
             member={result.member}
-            onClick={() => navigate(`/`)}
+            onClick={() => navigate(`/roomdetail`)}
           />
         ))}
       <NavigationBar />
