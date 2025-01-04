@@ -26,7 +26,7 @@ const client = axios.create({
 client.interceptors.request.use(
   (response) => {
     console.log("Auth value in fetchToken:", auth);
-    if (token && token.accessTOken) {
+    if (token && token.accessToken) {
       response.headers.Authorization = `${token.accessToken}`;
     }
     return response;
@@ -51,7 +51,7 @@ client.interceptors.response.use(
         //await refreshToken();
         const token = JSON.parse(localStorage.getItem("token"));
         if (token && token.refreshToken) {
-          const response = await axios.post(
+          const response = await axios.get(
             `/auth/kakao`,
             { refreshToken: token.refreshToken },
             {
@@ -86,3 +86,68 @@ client.interceptors.response.use(
   }
 );
 export { client };
+/*
+import axios from "axios";
+
+export const api = axios.create({
+  baseURL: `${process.env.REACT_APP_BASE_URL}`,
+});
+
+const token = JSON.parse(localStorage.getItem("token"));
+const accessToken = token?.accessToken || null;
+
+if (accessToken) {
+  api.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+}
+
+// 요청 인터셉터
+api.interceptors.request.use(
+  (config) => {
+    const storedToken = JSON.parse(localStorage.getItem("token"));
+    if (storedToken?.accessToken) {
+      config.headers.Authorization = `Bearer ${storedToken.accessToken}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
+// 응답 인터셉터
+api.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
+    const { status } = error.response || {};
+
+    if (status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+
+      try {
+        const storedToken = JSON.parse(localStorage.getItem("token"));
+        if (storedToken?.refreshToken) {
+          const refreshResponse = await axios.post(
+            `${process.env.REACT_APP_BASE_URL}/auth/kakao/`,
+            { refreshToken: storedToken.refreshToken }
+          );
+
+          const newToken = refreshResponse.data;
+          localStorage.setItem("token", JSON.stringify(newToken));
+          api.defaults.headers.common[
+            "Authorization"
+          ] = `Bearer ${newToken.accessToken}`;
+          originalRequest.headers.Authorization = `Bearer ${newToken.accessToken}`;
+          return api(originalRequest);
+        } else {
+          throw new Error("Refresh token not found");
+        }
+      } catch (refreshError) {
+        console.error("Token refresh failed:", refreshError);
+        localStorage.removeItem("token");
+        window.location.href = "/login";
+        return Promise.reject(refreshError);
+      }
+    }
+
+    return Promise.reject(error);
+  }
+);*/

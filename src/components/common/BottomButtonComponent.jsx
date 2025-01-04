@@ -1,9 +1,9 @@
 import styled from "styled-components";
 
-const BottomButtonComponent = ({ text }) => {
+const BottomButtonComponent = ({ text, onClick }) => {
   return (
     <Layout>
-      <Button>{text}</Button>
+      <Button onClick={onClick}>{text}</Button>
     </Layout>
   );
 };

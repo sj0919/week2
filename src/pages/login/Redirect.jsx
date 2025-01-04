@@ -4,7 +4,7 @@ import axios from "axios";
 import { api } from "../../api/api";
 
 const OAuthRedirectPage = () => {
-  console.log("Oauth");
+  console.log("OAuth");
   const code = new URL(window.location.href).searchParams.get("code");
   localStorage.setItem("code", code);
   const navigate = useNavigate();
@@ -14,15 +14,17 @@ const OAuthRedirectPage = () => {
 
       const fetchToken = async () => {
         try {
-          console.log("run");
-          const response = await api.get(`/auth/kakao`);
+          const response = await api.get(`/auth/kakao/callback?code=${code}`);
           console.log("Response from server:", response);
 
           const token = {
             accessToken: response.data.accessToken,
             refreshToken: response.data.refreshToken,
+            userInfo: response.data.userInfo,
           };
           localStorage.setItem("token", JSON.stringify(token));
+          localStorage.setItem("kakao_id", response.data.userInfo.id);
+          console.log("ss", response.data.userInfo.id);
           console.log("Token saved:", token);
           return token;
         } catch (error) {
@@ -31,7 +33,10 @@ const OAuthRedirectPage = () => {
           throw error;
         }
       };
-      const token = await fetchToken(code);
+      console.log("Before fetchToken");
+      console.log(code);
+      const token = await fetchToken();
+      console.log("After fetchToken");
       if (token) {
         navigate("/home");
       }

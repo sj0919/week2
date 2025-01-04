@@ -1,12 +1,39 @@
-import React, { useRef, useState } from "react";
-
+import React, { useRef, useState, useEffect } from "react";
+import { patchUserInfo } from "../../api/user";
 import styled from "styled-components";
 import { ReactComponent as Camera } from "../../assets/login/camera.svg";
+import BottomButtonComponent from "../../components/common/BottomButtonComponent";
+import { useNavigate } from "react-router";
+
 const CreateProfilePage = () => {
   const [isCameraActive, setIsCameraActive] = useState(false);
+  const [name, setName] = useState("너");
+  const [nickname, setNickname] = useState("");
+  const [introduce, setIntroduce] = useState("");
   const [image, setImage] = useState(null);
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
+  const navigate = useNavigate();
+  const [kakaoId, setKakaoId] = useState("");
+
+  useEffect(() => {
+    const kakaoIdFromStorage = localStorage.getItem("kakao_id");
+    console.log("kakao", kakaoIdFromStorage);
+    if (kakaoIdFromStorage) {
+      setKakaoId(kakaoIdFromStorage);
+    }
+    console.log(kakaoId);
+  }, [kakaoId]);
+
+  const UpdateUserInfo = async () => {
+    try {
+      const response = await patchUserInfo(kakaoId, name, nickname, introduce);
+      navigate("/home");
+      console.log(response.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   //카메라 활성화
   const activateCamera = () => {
@@ -42,15 +69,21 @@ const CreateProfilePage = () => {
       <Form>
         <Fieldset>
           <Legend>이름</Legend>
-          <Textarea />
+          <Textarea value={name} onChange={(e) => setName(e.target.value)} />
         </Fieldset>
         <Fieldset>
           <Legend>닉네임</Legend>
-          <Textarea />
+          <Textarea
+            value={nickname}
+            onChange={(e) => setNickname(e.target.value)}
+          />
         </Fieldset>
         <Fieldset>
           <Legend>한줄소개</Legend>
-          <Textarea />
+          <Textarea
+            value={introduce}
+            onChange={(e) => setIntroduce(e.target.value)}
+          />
         </Fieldset>
         <Fieldset>
           <Legend>
@@ -70,6 +103,7 @@ const CreateProfilePage = () => {
           </CameraImageContainer>
         </Fieldset>
       </Form>
+      <BottomButtonComponent text="완료" onClick={UpdateUserInfo} />
     </Layout>
   );
 };

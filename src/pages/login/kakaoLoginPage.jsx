@@ -4,15 +4,16 @@ import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 
-export const KAKAO_AUTH_URI = `https://kauth.kakao.com/oauth/authorize?client_id=09a698a4561ba30fa6ac339bcd61a899&redirect_uri=http://localhost:3000/auth/kakao/callback&response_type=code`;
+export const KAKAO_AUTH_URI = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.REACT_APP_API_KEY}&redirect_uri=${process.env.REACT_APP_REDIRECT_URI}`;
 
 const LoginPage = () => {
   const navigate = useNavigate();
 
   const handleKakaoLogin = () => {
     const token = localStorage.getItem("token");
+    console.log(token);
     if (token) {
-      navigate("/home");
+      navigate("/createprofile");
     } else {
       window.location.href = KAKAO_AUTH_URI;
     }

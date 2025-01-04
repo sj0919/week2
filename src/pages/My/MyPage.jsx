@@ -1,8 +1,61 @@
 import { ReactComponent as TopBar } from "../../assets/home/top_bar.svg";
 import styled from "styled-components";
 import NavigationBar from "../../components/common/NavigationBar";
+import { useState, useEffect } from "react";
+import { getUserInfo, delUser } from "../../api/user";
+import { postLogout } from "../../api/user";
 
 const MyPage = () => {
+  const [name, setName] = useState("");
+  const [nickname, setNickname] = useState("");
+  const [introduce, setIntroduce] = useState("");
+  const [kakaoId, setKakaoId] = useState("");
+
+  useEffect(() => {
+    const kakaoIdFromStorage = localStorage.getItem("kakao_id");
+    console.log("kakao", kakaoIdFromStorage);
+    if (kakaoIdFromStorage) {
+      setKakaoId(kakaoIdFromStorage);
+    }
+    console.log(kakaoId);
+  }, [kakaoId]);
+  const readUserInfo = async () => {
+    try {
+      const response = await getUserInfo(kakaoId);
+      const { name, nickname, introduce } = response.data.data;
+      setName(name);
+      setNickname(nickname);
+      setIntroduce(introduce);
+      console.log(name);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  useEffect(() => {
+    readUserInfo();
+  }, [kakaoId]);
+
+  const postLogout = async () => {
+    try {
+      const response = await postLogout(kakaoId);
+      localStorage.removeItem("token");
+      console.log("logout success");
+      console.log(response.data);
+      window.location.href = "/";
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  const deleteUser = async () => {
+    try {
+      const response = await delUser(kakaoId);
+      localStorage.removeItem("token");
+      console.log(response.data);
+      window.location.href = "/";
+    } catch (err) {
+      console.error(err);
+    }
+  };
   return (
     <Layout>
       <TopBar />
@@ -10,14 +63,15 @@ const MyPage = () => {
         <ProfileImage />
         <ProfileInfo>
           <Name>
-            이승진 <Username>SJSJ</Username>
+            {name}
+            <Username>{nickname}</Username>
           </Name>
-          <Greeting>반가워어요</Greeting>
+          <Greeting>{introduce}</Greeting>
         </ProfileInfo>
       </ProfileContainer>
       <ButtonContainer>
-        <Button>로그아웃</Button>
-        <ButtonPurple>회원탈퇴</ButtonPurple>
+        <Button onClick={postLogout}>로그아웃</Button>
+        <ButtonPurple onClick={deleteUser}>회원탈퇴</ButtonPurple>
       </ButtonContainer>
       <NavigationBar />
     </Layout>
