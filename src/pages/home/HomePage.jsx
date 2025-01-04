@@ -71,6 +71,7 @@ const TopContainer = styled.div`
 `;
 const TextWrapper = styled.span`
   size: 16px;
+  font-weight: 600;
 `;
 const ButtonWrapper = styled.button`
   background-color: var(--purple-pri);

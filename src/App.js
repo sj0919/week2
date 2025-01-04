@@ -2,6 +2,8 @@ import "./App.css";
 import { Route, Routes } from "react-router";
 //로그인
 import Login from "./pages/login/kakaoLoginPage";
+//redirect page
+import OAuthRedirectPage from "./pages/login/Redirect";
 //프로필 정보 입력
 import CreateProfilePage from "./pages/login/CreateProfilePage";
 //홈화면
@@ -29,6 +31,7 @@ const App = () => {
   return (
     <Routes>
       <Route path="/" element={<Login />} />
+      <Route path="/auth/kakao/callback" element={<OAuthRedirectPage />} />
       <Route path="/createprofile" element={<CreateProfilePage />} />
       <Route path="/home" element={<HomePage />} />
       <Route path="/createroom" element={<CreateRoomPage />} />

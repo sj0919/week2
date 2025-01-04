@@ -2,36 +2,34 @@ import { ReactComponent as Kakao } from "../../assets/login/kakao_login.svg";
 import { ReactComponent as Logo } from "../../assets/login/logo.svg";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
+
+export const KAKAO_AUTH_URI = `https://kauth.kakao.com/oauth/authorize?client_id=09a698a4561ba30fa6ac339bcd61a899&redirect_uri=http://localhost:3000/auth/kakao/callback&response_type=code`;
 
 const LoginPage = () => {
-  const [data, setData] = useState("Loading..."); // 초기 상태
+  const navigate = useNavigate();
 
-  // API 호출
-  useEffect(() => {
-    fetch("http://172.10.7.69:4000/api/data")
-      .then((response) => response.text()) // 문자열 응답 처리
-      .then((result) => setData(result)) // 상태 업데이트
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-        setData("Failed to load data");
-      });
-  }, []); // 빈 배열로 한 번만 실행
-
+  const handleKakaoLogin = () => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      navigate("/home");
+    } else {
+      window.location.href = KAKAO_AUTH_URI;
+    }
+  };
   return (
-    <div>
-      <h1>API Response:</h1>
-      <p>{data}</p>
-    </div>
-  );
-
-  /*return (
     <Layout>
       <Logo />
       <ButtonWrapper>
-        <Kakao />
+        <button
+          onClick={handleKakaoLogin}
+          style={{ background: "none", border: "none", cursor: "pointer" }}
+        >
+          <Kakao />
+        </button>
       </ButtonWrapper>
     </Layout>
-  );*/
+  );
 };
 
 export default LoginPage;

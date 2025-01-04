@@ -45,6 +45,7 @@ const Title = styled.span`
   font-size: 20px;
   font-weight: 550;
   padding-bottom: 4px;
+  color: var(--purple-pri);
 `;
 const Participants = styled.span`
   font-size: 14px;
