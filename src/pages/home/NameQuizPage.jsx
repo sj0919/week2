@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import BackHeaderComponent from "../../components/common/BackHeaderComponent";
+import BottomButtonComponent from "../../components/common/BottomButtonComponent";
 const NameQuizPage = () => {
   return (
     <Layout>
@@ -12,6 +13,7 @@ const NameQuizPage = () => {
         <Text>이사람의 이름은?</Text>
         <Textarea placeholder="이름을 입력하세요"></Textarea>
       </QuizContainer>
+      <BottomButtonComponent text="안틀릴 자신 있어?" />
     </Layout>
   );
 };

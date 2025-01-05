@@ -1,37 +1,112 @@
 import styled from "styled-components";
 import BackHeaderComponent from "../../components/common/BackHeaderComponent";
 import ParticipantSlider from "../../components/home/ParticipantSlider";
+import { ReactComponent as Exit } from "../../assets/home/exit.svg";
+import { useNavigate } from "react-router";
 const RoomDetailPage = () => {
+  const navigate = useNavigate();
   return (
     <Layout>
       <BackHeaderComponent />
-      <TopContainer>
-        <TextWrapper>몰캠 4분반</TextWrapper>
-        <ButtonWrapper>멤버 초대</ButtonWrapper>
-      </TopContainer>
-      <ParticipantSlider />
-      <TextWrapper>식사자리,회식자리, 뭐먹을지 못정했다면?</TextWrapper>
-      <ButtonWrapper>메뉴 정하러가기</ButtonWrapper>
+      <ContentContainer>
+        <TopContainer>
+          <TitleContainer>
+            <RoomName>몰캠 4분반</RoomName>
+            <InviteButton onClick={() => navigate("/invitemember")}>
+              멤버 초대
+            </InviteButton>
+          </TitleContainer>
+          <ExitIcon />
+        </TopContainer>
+        <ParticipantSliderContainer>
+          <ParticipantSlider />
+        </ParticipantSliderContainer>
+        <ChooseContainer>
+          <Message>
+            식사자리, 회식자리, <br />
+            뭐먹을지 못정하겠다면?
+          </Message>
+          <MenuButton onClick={() => navigate("/inputmenu")}>
+            메뉴
+            <br /> 입력하기
+          </MenuButton>
+        </ChooseContainer>
+      </ContentContainer>
     </Layout>
   );
 };
 
 export default RoomDetailPage;
 
-const Layout = styled.div``;
+const Layout = styled.div`
+  padding: 20px;
+  background-color: var(--white);
+`;
+const ContentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+`;
 const TopContainer = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  margin: 30px 0px 30px 0px;
-  gap: 60px;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 20px;
 `;
-const TextWrapper = styled.span`
-  size: 16px;
+const TitleContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
 `;
-const ButtonWrapper = styled.button`
+const RoomName = styled.span`
+  font-size: 18px;
+  font-weight: bold;
+`;
+
+const InviteButton = styled.button`
   background-color: var(--purple-pri);
-  border-radius: 8px;
   color: var(--white);
   border: none;
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 14px;
+  cursor: pointer;
+`;
+
+const ExitIcon = styled(Exit)`
+  cursor: pointer;
+`;
+
+const ParticipantSliderContainer = styled.div`
+  width: 100%;
+  margin: 20px 0;
+`;
+
+const ChooseContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+`;
+const Message = styled.p`
+  font-size: 18px;
+  color: var(--black);
+  text-align: center;
+  margin-bottom: 20px;
+  font-weight: 700;
+`;
+
+const MenuButton = styled.button`
+  width: 86px;
+  height: 52px;
+  background-color: var(--purple-pri);
+  color: var(--white);
+  border: none;
+  border-radius: 8px;
+
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
 `;

@@ -27,6 +27,9 @@ import ResultPage from "./pages/home/ResultPage";
 import MyPage from "./pages/My/MyPage";
 //알림페이지
 import NoticePage from "./pages/notice/NoticePage";
+//멤버 추가초대페이지
+import InviteMemberPage from "./pages/home/InviteMemberPage";
+
 const App = () => {
   return (
     <Routes>
@@ -36,6 +39,7 @@ const App = () => {
       <Route path="/home" element={<HomePage />} />
       <Route path="/createroom" element={<CreateRoomPage />} />
       <Route path="/roomdetail" element={<RoomDetailPage />} />
+      <Route path="/invitemember" element={<InviteMemberPage />} />
       <Route path="/inputmenu" element={<InputMenuPage />} />
       <Route path="/namequiz" element={<NameQuizPage />} />
       <Route path="/wrong" element={<WrongPage />} />

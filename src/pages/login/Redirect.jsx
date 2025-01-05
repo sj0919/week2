@@ -38,7 +38,7 @@ const OAuthRedirectPage = () => {
       const token = await fetchToken();
       console.log("After fetchToken");
       if (token) {
-        navigate("/home");
+        navigate("/createprofile");
       }
     } catch (error) {
       console.error("Error in readAccessTokenKakao:", error);

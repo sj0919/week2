@@ -12,15 +12,15 @@ export const getUserInfo = async (kakao) => {
 };
 
 //회원정보 수정
-export const patchUserInfo = async (kakao, nickname, email, introduce) => {
+export const patchUserInfo = async (kakao, name, nickname, introduce) => {
   try {
-    const response = await client.get(`/users/${kakao}`, {
+    const response = await client.patch(`/users/${kakao}`, {
+      name: name,
       nickname: nickname,
-      email: email,
       introduce: introduce,
     });
-    console.log("유저정보:", response);
-    return response;
+    console.log("유저정보:", response.data);
+    return response.data;
   } catch (err) {
     throw err;
   }

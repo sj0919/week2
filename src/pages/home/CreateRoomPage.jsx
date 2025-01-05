@@ -4,16 +4,48 @@ import BottomButtonComponent from "../../components/common/BottomButtonComponent
 import MemberItem from "../../components/home/MemberItem";
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { postRoom } from "../../api/room";
 
 const CreateRoomPage = () => {
-  const dummyData = [
-    { name: "홍길동", id: 1, nickname: "gildong" },
-    { name: "홍길동", id: 2, nickname: "gildong" },
-    { name: "홍길동", id: 3, nickname: "gildong" },
-    { name: "홍길동", id: 4, nickname: "gildong" },
-  ];
-  const [results, setResults] = useState(dummyData);
+  const [roomName, setRoomName] = useState("");
+  const [name, setName] = useState("");
+  const [results, setResults] = useState([]); // 초대된 멤버들을 관리하는 배열
   const navigate = useNavigate();
+
+  // 방 생성 API 연결
+  const createRoom = async (roomName) => {
+    try {
+      if (!roomName.trim()) {
+        alert("방 이름을 입력해주세요.");
+        return;
+      }
+
+      if (results.length === 0) {
+        alert("초대할 멤버를 추가해주세요.");
+        return;
+      }
+
+      const names = results.map((result) => result.id);
+      await postRoom(roomName, names);
+      navigate("/home");
+    } catch (err) {
+      console.error("Error creating room:", err);
+      alert("방 생성 중 문제가 발생했습니다.");
+    }
+  };
+
+  // 멤버 초대 함수
+  const inviteMember = (e) => {
+    e.preventDefault();
+    if (name) {
+      const newMember = {
+        id: results.length + 1, // 새로운 id는 results의 길이에 따라 자동으로 생성
+        name: name, // nickname을 name으로 사용
+      };
+      setResults([...results, newMember]); // results 배열에 새 멤버 추가
+      setName(""); // 초대 후 닉네임 입력란 초기화
+    }
+  };
 
   return (
     <Layout>
@@ -22,35 +54,42 @@ const CreateRoomPage = () => {
         <Form>
           <Fieldset>
             <Legend>방 이름</Legend>
-            <Textarea />
+            <Textarea
+              value={roomName}
+              onChange={(e) => setRoomName(e.target.value)}
+            />
           </Fieldset>
           <Fieldset>
             <Legend>멤버 초대</Legend>
             <InviteContainer>
               <TextInputContainer>
-                <NicknameTextarea></NicknameTextarea>
-                <InviteButton>초대</InviteButton>
+                <NicknameTextarea
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="이름을 입력하세요"
+                />
+                <InviteButton onClick={inviteMember}>초대</InviteButton>
               </TextInputContainer>
               <MemberContainer>
                 <Legend>초대현황</Legend>
                 <MemberItemContainer>
-                  {results &&
-                    results.map((result) => {
-                      return (
-                        <MemberItem
-                          key={result.id}
-                          name={result.name}
-                          nickname={result.nickname}
-                          onClick={() => navigate(`/`)}
-                        />
-                      );
-                    })}
+                  {results.map((result) => (
+                    <MemberItem
+                      key={result.id}
+                      name={result.name}
+                      //nickname={result.nickname}
+                      onClick={() => navigate(`/`)}
+                    />
+                  ))}
                 </MemberItemContainer>
               </MemberContainer>
             </InviteContainer>
           </Fieldset>
         </Form>
-        <BottomButtonComponent text="완료" />
+        <BottomButtonComponent
+          text="완료"
+          onClick={() => createRoom(roomName)}
+        />
       </ContentContainer>
     </Layout>
   );
@@ -121,9 +160,9 @@ const NicknameTextarea = styled.textarea`
   border-radius: 0px;
   border: 0px;
   resize: none;
-  padding: px;
+  padding: 4px;
 `;
-const InviteButton = styled.button`
+const InviteButton = styled.button.attrs({ type: "button" })`
   display: flex;
   align-items: center;
   justify-content: center;

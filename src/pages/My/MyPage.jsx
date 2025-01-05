@@ -62,11 +62,13 @@ const MyPage = () => {
       <ProfileContainer>
         <ProfileImage />
         <ProfileInfo>
-          <Name>
-            {name}
-            <Username>{nickname}</Username>
-          </Name>
+          <HLine />
+          <strong>{name}</strong>
+          <Username>
+            닉네임은 <strong>{nickname}</strong>
+          </Username>
           <Greeting>{introduce}</Greeting>
+          <HLine />
         </ProfileInfo>
       </ProfileContainer>
       <ButtonContainer>
@@ -89,14 +91,14 @@ const ProfileContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin: 20px 0;
+  margin: 40px 0;
   gap: 16px;
   margin: 20px;
 `;
 
 const ProfileImage = styled.div`
-  width: 80px;
-  height: 80px;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
   background-color: var(--gray-200);
 `;
@@ -104,18 +106,21 @@ const ProfileImage = styled.div`
 const ProfileInfo = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
 `;
 
-const Name = styled.span`
-  font-size: 18px;
-  font-weight: bold;
-  color: var(--black);
+const HLine = styled.div`
+  display: flex;
+  border: 1px solid var(--gray-200);
+  width: 140px;
+  margin: 10px;
 `;
 
 const Username = styled.span`
-  font-size: 14px;
+  font-size: 15px;
   font-weight: normal;
-  color: var(--purple-pri);
   margin-left: 8px;
 `;
 
@@ -137,9 +142,10 @@ const Button = styled.button`
   background: none;
   border: none;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700;
 `;
 
 const ButtonPurple = styled(Button)`
   color: var(--purple-pri);
+  font-weight: 700;
 `;

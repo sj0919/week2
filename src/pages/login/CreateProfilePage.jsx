@@ -83,6 +83,7 @@ const CreateProfilePage = () => {
           <Textarea
             value={introduce}
             onChange={(e) => setIntroduce(e.target.value)}
+            placeholder="한줄소개는 최대 10글자"
           />
         </Fieldset>
         <Fieldset>
