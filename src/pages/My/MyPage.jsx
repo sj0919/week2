@@ -40,9 +40,10 @@ const MyPage = () => {
       const response = await postLogout(kakaoId);
       localStorage.removeItem("token");
       console.log("logout success");
-      console.log(response.data);
+      console.log(response);
       window.location.href = "/";
     } catch (err) {
+      console.log("로그아웃 실패");
       console.error(err);
     }
   };
