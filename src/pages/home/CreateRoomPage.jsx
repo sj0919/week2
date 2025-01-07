@@ -5,7 +5,6 @@ import MemberItem from "../../components/home/MemberItem";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { postRoom } from "../../api/room";
-
 const CreateRoomPage = () => {
   const [roomName, setRoomName] = useState("");
   const [name, setName] = useState("");
@@ -25,7 +24,7 @@ const CreateRoomPage = () => {
         return;
       }
 
-      const names = results.map((result) => result.id);
+      const names = results.map((result) => result.name);
       await postRoom(roomName, names);
       navigate("/home");
     } catch (err) {
@@ -45,6 +44,11 @@ const CreateRoomPage = () => {
       setResults([...results, newMember]); // results 배열에 새 멤버 추가
       setName(""); // 초대 후 닉네임 입력란 초기화
     }
+  };
+
+  // 멤버 삭제 함수
+  const removeMember = (id) => {
+    setResults(results.filter((result) => result.id !== id)); // 특정 id를 제외한 멤버만 남김
   };
 
   return (
@@ -76,9 +80,9 @@ const CreateRoomPage = () => {
                   {results.map((result) => (
                     <MemberItem
                       key={result.id}
+                      id={result.id} // id 전달
                       name={result.name}
-                      //nickname={result.nickname}
-                      onClick={() => navigate(`/`)}
+                      onDelete={removeMember} // 삭제 함수 전달
                     />
                   ))}
                 </MemberItemContainer>
@@ -94,6 +98,7 @@ const CreateRoomPage = () => {
     </Layout>
   );
 };
+
 export default CreateRoomPage;
 
 const Layout = styled.div``;

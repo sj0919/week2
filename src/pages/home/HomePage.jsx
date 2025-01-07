@@ -23,34 +23,34 @@ const HomePage = () => {
   }, []);
 
   //방 list 불러오는 API
-  const readRoomList = async (kakaoId) => {
+  const readRoomList = async () => {
     try {
       const response = await getRoom(kakaoId);
-      setResults(Array.isArray(response.data) ? response.data : []);
+      console.log("API Response:", response.data);
+
+      if (response.data && Array.isArray(response.data.data)) {
+        const rooms = response.data.data.flatMap((item) =>
+          (item.roomInfo || []).map((room) => ({
+            ...room,
+            members: item.names.join(", "), // 참가자 정보를 문자열로 변환
+          }))
+        );
+        setResults(rooms); // 결합된 데이터 설정
+        console.log("Processed Rooms:", rooms);
+      } else {
+        console.error("Invalid data format:", response.data);
+        setResults([]);
+      }
     } catch (err) {
-      console.error(err);
+      console.error("Error fetching room list:", err);
+      setResults([]);
     }
   };
 
-  const handleInputChange = (e) => {
-    setNewMember(e.target.value);
-  };
-
-  const handleInviteClick = () => {
-    if (newMember.trimEnd() !== "") {
-      const updatedResults = results.map((room, index) => {
-        if (index === 0) {
-          return { ...room, member: room.member + newMember + "," };
-        }
-        return room;
-      });
-    }
-  };
-  const onChange = (e) => {
-    setResults(e.target.value);
-  };
   useEffect(() => {
-    readRoomList();
+    if (kakaoId) {
+      readRoomList();
+    }
   }, [kakaoId]);
   return (
     <Layout>
@@ -62,14 +62,15 @@ const HomePage = () => {
         </ButtonWrapper>
       </TopContainer>
       {results &&
-        results.map((result, index) => (
+        results.map((result) => (
           <RoomItem
             key={result.id}
-            title={result.title}
-            member={result.member}
-            onClick={() => navigate(`/roomdetail`)}
+            title={result.name}
+            member={result.members} // 수정된 member 전달
+            onClick={() => navigate(`/roomdetail/${result.id}`)}
           />
         ))}
+
       <NavigationBar />
     </Layout>
   );

@@ -61,7 +61,7 @@ const MyPage = () => {
     <Layout>
       <TopBar />
       <ProfileContainer>
-        <ProfileImage />
+        <ProfileImage src={`http://172.10.7.69:3000/uploads/${kakaoId}.jpg`} />
         <ProfileInfo>
           <HLine />
           <strong>{name}</strong>
@@ -97,7 +97,7 @@ const ProfileContainer = styled.div`
   margin: 20px;
 `;
 
-const ProfileImage = styled.div`
+const ProfileImage = styled.img`
   width: 150px;
   height: 150px;
   border-radius: 50%;

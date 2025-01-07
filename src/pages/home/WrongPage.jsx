@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import BackHeaderComponent from "../../components/common/BackHeaderComponent";
 import Wrong from "../../assets/home/quiz_wrong.png";
+
 const WrongPage = () => {
   return (
     <Layout>

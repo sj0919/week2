@@ -2,10 +2,10 @@ import styled from "styled-components";
 import { ReactComponent as Delete } from "../../assets/home/delete_btn.svg";
 import { ReactComponent as Profile } from "../../assets/home/profile.svg";
 
-const MemberItem = ({ name, nickname }) => {
+const MemberItem = ({ id, name, nickname, onDelete }) => {
   return (
     <Layout>
-      <DeleteButton>
+      <DeleteButton onClick={() => onDelete(id)}>
         <Delete />
       </DeleteButton>
       <ProfileIcon>

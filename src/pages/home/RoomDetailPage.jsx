@@ -3,30 +3,91 @@ import BackHeaderComponent from "../../components/common/BackHeaderComponent";
 import ParticipantSlider from "../../components/home/ParticipantSlider";
 import { ReactComponent as Exit } from "../../assets/home/exit.svg";
 import { useNavigate } from "react-router";
+import { delRoom, getRoomDetail } from "../../api/room";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router";
+
 const RoomDetailPage = () => {
+  const { roomId } = useParams();
   const navigate = useNavigate();
+  const [roomName, setRoomName] = useState("");
+  const [participants, setParticipants] = useState([]); // names 데이터를 저장할 상태
+  console.log("방아이디", roomId);
+
+  // 각 방 정보 읽기 API 연결
+  const readRoomDetail = async () => {
+    try {
+      const response = await getRoomDetail(roomId);
+      const roomInfo = response.data.data.roomInfo[0];
+      const names = response.data.data.names;
+
+      if (roomInfo) {
+        setRoomName(roomInfo.name); // 방 이름 설정
+      }
+      if (Array.isArray(names)) {
+        setParticipants(names); // names 데이터를 설정
+      }
+
+      console.log("Room Info:", roomInfo);
+      console.log("Participants:", names);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const [kakaoId, setKakaoId] = useState("");
+
+  useEffect(() => {
+    const kakaoIdFromStorage = localStorage.getItem("kakao_id");
+    console.log("kakao", kakaoIdFromStorage);
+    if (kakaoIdFromStorage) {
+      setKakaoId(kakaoIdFromStorage);
+    }
+    console.log(kakaoId);
+  }, []);
+
+  useEffect(() => {
+    if (roomId) {
+      readRoomDetail();
+    }
+  }, [roomId]);
+
+  // 방 나가기 API 연결
+  const deleteRoom = async () => {
+    try {
+      console.log("roomId", roomId);
+      const response = await delRoom(roomId, kakaoId);
+      console.log(response.data);
+      navigate("/home");
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <Layout>
       <BackHeaderComponent />
       <ContentContainer>
         <TopContainer>
           <TitleContainer>
-            <RoomName>몰캠 4분반</RoomName>
+            <RoomName>{roomName}</RoomName>
             <InviteButton onClick={() => navigate("/invitemember")}>
               멤버 초대
             </InviteButton>
           </TitleContainer>
-          <ExitIcon />
+          <ExitIcon onClick={deleteRoom} />
         </TopContainer>
         <ParticipantSliderContainer>
-          <ParticipantSlider />
+          <ParticipantSlider names={participants} />
         </ParticipantSliderContainer>
         <ChooseContainer>
           <Message>
             식사자리, 회식자리, <br />
             뭐먹을지 못정하겠다면?
           </Message>
-          <MenuButton onClick={() => navigate("/inputmenu")}>
+          <MenuButton
+            onClick={() => navigate(`/inputmenu/${roomId}/${kakaoId}`)}
+          >
             메뉴
             <br /> 입력하기
           </MenuButton>
@@ -39,14 +100,14 @@ const RoomDetailPage = () => {
 export default RoomDetailPage;
 
 const Layout = styled.div`
-  padding: 20px;
+  margin: 10px;
   background-color: var(--white);
 `;
 const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 20px;
+  margin-top: 10px;
 `;
 const TopContainer = styled.div`
   display: flex;

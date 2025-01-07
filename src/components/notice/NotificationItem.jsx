@@ -4,7 +4,7 @@ const NotificationItem = ({ title, detail }) => {
   return (
     <Layout>
       <Text>{title}</Text>
-      <Detail>{detail}</Detail>
+      <Detail>{title}에 초대되었습니다</Detail>
     </Layout>
   );
 };

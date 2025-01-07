@@ -2,29 +2,27 @@ import React from "react";
 import styled from "styled-components";
 import { ReactComponent as Alarm } from "../../assets/home/alarm_icn.svg";
 
-const ParticipantSlider = () => {
-  const dummyParticipants = [
-    { id: 1, name: "홍길동" },
-    { id: 2, name: "김철수" },
-    { id: 3, name: "이영희" },
-    { id: 4, name: "박지수" },
-    { id: 5, name: "최민수" },
-  ];
-
+const ParticipantSlider = ({ names = [] }) => {
   return (
     <Layout>
       <Title>멤버</Title>
       <Container>
         <Slider>
-          {dummyParticipants.map((participant) => (
-            <Participant key={participant.id}>
-              <Avatar />
-              <NameContainer>
-                {participant.name}
-                <Alarm />
-              </NameContainer>
-            </Participant>
-          ))}
+          {names.length > 0 ? (
+            names.map((name, index) => (
+              <Participant key={index}>
+                <Avatar
+                //src={`http://172.10.7.69:3000/uploads/${kakaoId}.jpg`}
+                />
+                <NameContainer>
+                  {name}
+                  <Alarm />
+                </NameContainer>
+              </Participant>
+            ))
+          ) : (
+            <NoParticipants>참여자가 없습니다.</NoParticipants>
+          )}
         </Slider>
       </Container>
     </Layout>
@@ -38,7 +36,8 @@ const Layout = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items;center; 
- `;
+`;
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -79,7 +78,7 @@ const Participant = styled.div`
   min-width: 60px;
 `;
 
-const Avatar = styled.div`
+const Avatar = styled.img`
   width: 60px;
   height: 60px;
   background-color: var(--gray-200);
@@ -92,4 +91,9 @@ const NameContainer = styled.div`
   margin-top: 5px;
   font-size: 13px;
   text-align: center;
+`;
+
+const NoParticipants = styled.p`
+  color: var(--gray-400);
+  font-size: 14px;
 `;

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { ReactComponent as Arrow } from "../../assets/home/arrow.svg";
 
-const RoomItem = ({ item, title, member, onClick }) => {
+const RoomItem = ({ title, member, onClick }) => {
   return (
     <Layout>
       <ResultItem onClick={onClick}>

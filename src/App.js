@@ -22,7 +22,6 @@ import WrongPage from "./pages/home/WrongPage";
 import CorrectPage from "./pages/home/CorrectPage";
 //메뉴 선정 결과 페이지
 import ResultPage from "./pages/home/ResultPage";
-
 //마이페이지
 import MyPage from "./pages/My/MyPage";
 //알림페이지
@@ -38,15 +37,17 @@ const App = () => {
       <Route path="/createprofile" element={<CreateProfilePage />} />
       <Route path="/home" element={<HomePage />} />
       <Route path="/createroom" element={<CreateRoomPage />} />
-      <Route path="/roomdetail" element={<RoomDetailPage />} />
+      <Route path="/roomdetail/:roomId" element={<RoomDetailPage />} />
       <Route path="/invitemember" element={<InviteMemberPage />} />
-      <Route path="/inputmenu" element={<InputMenuPage />} />
-      <Route path="/namequiz" element={<NameQuizPage />} />
+      <Route path="/inputmenu/:roomId/:kakaoId" element={<InputMenuPage />} />
+      <Route path="/namequiz/:roomId/:kakaoId" element={<NameQuizPage />} />
       <Route path="/wrong" element={<WrongPage />} />
       <Route path="/correct" element={<CorrectPage />} />
-      <Route path="/result" element={<ResultPage />} />
+      <Route path="/result/:roomId" element={<ResultPage />} />
       <Route path="/my" element={<MyPage />} />
       <Route path="/notice" element={<NoticePage />} />
+      <Route path="/correct/:roomId/:kakaoId" element={<CorrectPage />} />
+      <Route path="/wrong/:roomId/:kakaoId" element={<WrongPage />} />
     </Routes>
   );
 };

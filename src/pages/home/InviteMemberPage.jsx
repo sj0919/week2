@@ -4,25 +4,47 @@ import BottomButtonComponent from "../../components/common/BottomButtonComponent
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import MemberItem from "../../components/home/MemberItem";
+import { postMembers } from "../../api/room";
 
 const InviteMemberPage = () => {
-  const [roomName, setRoomName] = useState("");
   const [nickname, setNickname] = useState("");
-  const [name, setName] = useState("");
   const [results, setResults] = useState([]); // 초대된 멤버들을 관리하는 배열
   const navigate = useNavigate();
+
   // 멤버 초대 함수
   const inviteMember = () => {
-    if (nickname) {
+    if (nickname.trim()) {
       const newMember = {
         id: results.length + 1, // 새로운 id는 results의 길이에 따라 자동으로 생성
-        name: nickname, // nickname을 name으로 사용
-        nickname: nickname, // nickname
+        name: nickname, // 이름
+        nickname: nickname, // 닉네임
       };
       setResults([...results, newMember]); // results 배열에 새 멤버 추가
       setNickname(""); // 초대 후 닉네임 입력란 초기화
     }
   };
+
+  // 멤버 삭제 함수
+  const removeMember = (id) => {
+    setResults(results.filter((result) => result.id !== id)); // 특정 id를 제외한 멤버만 남김
+  };
+
+  // 멤버 추가 API 연결
+  const handlePostMembers = async () => {
+    try {
+      if (results.length === 0) {
+        alert("초대할 멤버를 추가해주세요.");
+        return;
+      }
+      const names = results.map((result) => result.name);
+      await postMembers(names);
+      navigate("/home");
+    } catch (err) {
+      console.error("Error adding members:", err);
+      alert("멤버 추가 중 문제가 발생했습니다.");
+    }
+  };
+
   return (
     <Layout>
       <BackHeaderComponent />
@@ -31,7 +53,7 @@ const InviteMemberPage = () => {
         <InviteContainer>
           <TextInputContainer>
             <NicknameTextarea
-              value={name}
+              value={nickname}
               onChange={(e) => setNickname(e.target.value)}
               placeholder="이름을 입력하세요"
             />
@@ -43,19 +65,21 @@ const InviteMemberPage = () => {
               {results.map((result) => (
                 <MemberItem
                   key={result.id}
+                  id={result.id}
                   name={result.name}
                   nickname={result.nickname}
-                  onClick={() => navigate(`/`)}
+                  onDelete={removeMember} // 삭제 함수 전달
                 />
               ))}
             </MemberItemContainer>
           </MemberContainer>
         </InviteContainer>
       </Fieldset>
-      <BottomButtonComponent text="초대완료" onClick={() => "/home"} />
+      <BottomButtonComponent text="초대완료" onClick={handlePostMembers} />
     </Layout>
   );
 };
+
 export default InviteMemberPage;
 
 const Layout = styled.div`
@@ -76,16 +100,6 @@ const Legend = styled.legend`
   font-weight: 600;
 `;
 
-const Textarea = styled.textarea`
-  display: flex;
-  width: 330px;
-  height: 20px;
-  padding: 10px;
-  border-color: var(--gray-300);
-  border-radius: 10px;
-  font-size: 15px;
-  resize: none;
-`;
 const InviteContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -109,6 +123,7 @@ const TextInputContainer = styled.div`
   border-radius: 10px;
   margin-left: 4px;
 `;
+
 const NicknameTextarea = styled.textarea`
   width: 250px;
   height: 20px;
@@ -118,6 +133,7 @@ const NicknameTextarea = styled.textarea`
   resize: none;
   padding: 4px;
 `;
+
 const InviteButton = styled.button`
   display: flex;
   align-items: center;
@@ -130,7 +146,9 @@ const InviteButton = styled.button`
   border-radius: 11px;
   margin-right: 8px;
 `;
+
 const MemberItemContainer = styled.div``;
+
 const MemberContainer = styled.div`
   display: flex;
   flex-direction: column;

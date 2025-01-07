@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { ReactComponent as Camera } from "../../assets/login/camera.svg";
 import BottomButtonComponent from "../../components/common/BottomButtonComponent";
 import { useNavigate } from "react-router";
+import { api } from "../../api/api";
 
 const CreateProfilePage = () => {
   const [isCameraActive, setIsCameraActive] = useState(false);
@@ -37,6 +38,7 @@ const CreateProfilePage = () => {
 
   //카메라 활성화
   const activateCamera = () => {
+    console.log("Camera activated");
     navigator.mediaDevices
       .getUserMedia({ video: true })
       .then((stream) => {
@@ -44,26 +46,78 @@ const CreateProfilePage = () => {
           videoRef.current.srcObject = stream;
         }
         setIsCameraActive(true);
+        console.log("Camera state:", isCameraActive);
       })
       .catch((err) => {
         console.log("카메라 접근 불가...", err);
       });
   };
 
+  const deactivateCamera = () => {
+    const stream = videoRef.current?.srcObject;
+    if (stream) {
+      const tracks = stream.getTracks();
+      tracks.forEach((track) => track.stop());
+    }
+    setIsCameraActive(false);
+  };
+
   //사진찍기
-  const takePicture = () => {
+  const takePicture = (e) => {
+    e.preventDefault();
     const canvas = canvasRef.current;
     const video = videoRef.current;
+
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
 
     const ctx = canvas.getContext("2d");
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-    const dataUrl = canvas.toDataURL("image/png");
-    setImage(dataUrl);
-    setIsCameraActive(false);
+    canvas.toBlob((blob) => {
+      const renamedBlob = new File([blob], `${kakaoId}.jpg`, {
+        type: "image/jpeg",
+      });
+      setImage(renamedBlob); // Blob 데이터를 File로 변환 후 상태에 저장
+      setIsCameraActive(false);
+      deactivateCamera();
+    }, "image/jpeg");
   };
+
+  const handleUpload = async () => {
+    if (!image) {
+      alert("사진을 찍어주세요.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("photo", image); // Blob 데이터를 'photo' 키로 추가
+
+    try {
+      const response = await api.patch(`users/image/${kakaoId}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      console.log("이미지 업로드 성공:", response.data);
+      alert("이미지 업로드 성공!");
+    } catch (error) {
+      console.error("이미지 업로드 실패:", error);
+      alert("이미지 업로드 실패.");
+    }
+  };
+
+  const handleComplete = async () => {
+    try {
+      await handleUpload(); // handleUpload 실행
+      await UpdateUserInfo(); // handleUpload 성공 후 UpdateUserInfo 실행
+    } catch (err) {
+      console.error("Error during completion:", err);
+      alert("업로드 또는 사용자 정보 업데이트 중 오류가 발생했습니다.");
+    }
+  };
+
   return (
     <Layout>
       <Form>
@@ -95,20 +149,21 @@ const CreateProfilePage = () => {
             {isCameraActive ? (
               <>
                 <video ref={videoRef} autoPlay></video>
+                <canvas ref={canvasRef} style={{ display: "none" }}></canvas>
+                <CameraButton onClick={takePicture}>사진 촬영하기</CameraButton>
               </>
             ) : image ? (
-              <img src={image} alt="촬영된 이미지" />
+              <img src={URL.createObjectURL(image)} alt="촬영된 이미지" />
             ) : (
               <CameraImage>사진을 찍으세요</CameraImage>
             )}
           </CameraImageContainer>
         </Fieldset>
       </Form>
-      <BottomButtonComponent text="완료" onClick={UpdateUserInfo} />
+      <BottomButtonComponent text="완료" onClick={handleComplete} />
     </Layout>
   );
 };
-
 export default CreateProfilePage;
 
 const Layout = styled.div`
@@ -160,6 +215,19 @@ img{
     height:100%
     object-fit:cover;
   }
+    button {
+  position: absolute; /* 또는 적절히 설정 */
+  z-index: 10;        /* 부모 요소 위로 올리기 */
+}
+`;
+
+const CameraButton = styled.button`
+  display: flex;
+  width: 100px;
+  height: 25px;
+  border-radius: 10px;
+  border: 1px solid var(--gray-100);
+  margin-top: 10px;
 `;
 const CameraImage = styled.div`
   display: flex;
