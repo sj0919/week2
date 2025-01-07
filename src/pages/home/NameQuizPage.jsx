@@ -49,7 +49,7 @@ const NameQuizPage = () => {
         <Text>퀴즈 이름 맞추기</Text>
         <QuizContainer>
           <ImageWrapper
-            src={`https://api.hmhgmg.r-e.kr${randomPic}`}
+            src={`${process.env.REACT_APP_BASE_URL}${randomPic}`}
           ></ImageWrapper>
           <Text>이사람의 이름은?</Text>
           <Textarea

@@ -24,7 +24,7 @@ const ParticipantSlider = ({ names = [], profiles = [], roomId }) => {
         <Slider>
           {names.length > 0 ? (
             names.map((name, index) => {
-              const profileURL = `https://api.hmhgmg.r-e.kr/uploads/${profiles[index]}.jpg`;
+              const profileURL = `${process.env.REACT_APP_BASE_URL}/uploads/${profiles[index]}.jpg`;
 
               return (
                 <Participant key={index}>

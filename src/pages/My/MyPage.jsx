@@ -62,7 +62,7 @@ const MyPage = () => {
       <TopBar />
       <ProfileContainer>
         <ProfileImage
-          src={`https://api.hmhgmg.r-e.kr/uploads/${kakaoId}.jpg`}
+          src={`${process.env.REACT_APP_BASE_URL}/uploads/${kakaoId}.jpg`}
         />
         <ProfileInfo>
           <HLine />

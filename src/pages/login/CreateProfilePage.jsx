@@ -109,6 +109,11 @@ const CreateProfilePage = () => {
   };
 
   const handleComplete = async () => {
+    if (!image) {
+      alert("사진을 찍어주세요.");
+      return; // 사진이 없으면 handleComplete 실행 중단
+    }
+
     try {
       await handleUpload(); // handleUpload 실행
       await UpdateUserInfo(); // handleUpload 성공 후 UpdateUserInfo 실행
@@ -150,7 +155,6 @@ const CreateProfilePage = () => {
               <>
                 <video ref={videoRef} autoPlay></video>
                 <canvas ref={canvasRef} style={{ display: "none" }}></canvas>
-                <CameraButton onClick={takePicture}>사진 촬영하기</CameraButton>
               </>
             ) : image ? (
               <img src={URL.createObjectURL(image)} alt="촬영된 이미지" />
@@ -159,6 +163,7 @@ const CreateProfilePage = () => {
             )}
           </CameraImageContainer>
         </Fieldset>
+        <CameraButton onClick={takePicture}>사진 촬영하기</CameraButton>
       </Form>
       <BottomButtonComponent text="완료" onClick={handleComplete} />
     </Layout>

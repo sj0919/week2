@@ -90,7 +90,7 @@ const RoomDetailPage = () => {
         <TopContainer>
           <TitleContainer>
             <RoomName>{roomName}</RoomName>
-            <InviteButton onClick={() => navigate("/invitemember")}>
+            <InviteButton onClick={() => navigate(`/invitemember/${roomId}`)}>
               멤버 초대
             </InviteButton>
           </TitleContainer>
