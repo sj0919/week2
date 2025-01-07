@@ -47,3 +47,16 @@ export const delUser = async (kakao) => {
     throw err;
   }
 };
+
+//멤버 호출
+export const postUser = async (roomId, userId1, userId2) => {
+  try {
+    const response = await client.post(
+      `/notifications/send/${roomId}/${userId1}/${userId2}`
+    );
+    console.log("멤버 호출", response);
+    return response;
+  } catch (err) {
+    throw err;
+  }
+};

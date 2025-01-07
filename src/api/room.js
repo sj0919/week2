@@ -94,3 +94,14 @@ export const getMenu = async (roomId) => {
     throw err;
   }
 };
+
+//방 아이디에 따라 퀴즈 초기화
+export const patchReset = async (roomId) => {
+  try {
+    const response = await client.patch(`/rooms_users/program/${roomId}`);
+    console.log("초기화", response);
+    return response;
+  } catch (err) {
+    throw err;
+  }
+};

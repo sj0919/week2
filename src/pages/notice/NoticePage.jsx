@@ -23,7 +23,13 @@ const NoticePage = () => {
   const readNotice = async () => {
     try {
       const response = await getNotice(kakaoId);
-      const notiList = response.data.data;
+      //const notiList = response.data.data;
+      let notiList = response.data.data;
+
+      // 최신 알림 순으로 정렬 (예: created_at 기준 내림차순 정렬)
+      notiList = notiList.sort(
+        (a, b) => new Date(b.created_at) - new Date(a.created_at)
+      );
       setResults(notiList);
     } catch (err) {
       console.error(err);

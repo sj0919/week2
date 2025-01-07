@@ -28,14 +28,16 @@ const ResultItem = styled.button`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  background-color: var(--white);
-  border: 1px solid var(--gray-300);
+  background-color: #ffffff; /* 흰색 배경 */
+  border: 0px solid var(--purple-sec); /* 기존 테두리 제거 */
   border-radius: 10px;
   width: 329px;
   height: 79px;
   padding: 13px;
   margin: 7px;
+  box-shadow: 0px 0px 10px 3px var(--purple-sec); /* 그림자 색상 설정 */
 `;
+
 const TextContainer = styled.div`
   display: flex;
   flex-direction: column;
