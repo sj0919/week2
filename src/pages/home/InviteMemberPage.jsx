@@ -2,7 +2,7 @@ import styled from "styled-components";
 import BackHeaderComponent from "../../components/common/BackHeaderComponent";
 import BottomButtonComponent from "../../components/common/BottomButtonComponent";
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import MemberItem from "../../components/home/MemberItem";
 import { postMembers } from "../../api/room";
 
@@ -10,6 +10,7 @@ const InviteMemberPage = () => {
   const [nickname, setNickname] = useState("");
   const [results, setResults] = useState([]); // 초대된 멤버들을 관리하는 배열
   const navigate = useNavigate();
+  const { roomId } = useParams();
 
   // 멤버 초대 함수
   const inviteMember = () => {
@@ -37,7 +38,7 @@ const InviteMemberPage = () => {
         return;
       }
       const names = results.map((result) => result.name);
-      await postMembers(names);
+      await postMembers(roomId, names);
       navigate("/home");
     } catch (err) {
       console.error("Error adding members:", err);

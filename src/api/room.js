@@ -38,9 +38,11 @@ export const getRoomDetail = async (roomId) => {
 };
 
 //방에 멤버 추가초대
-export const postMembers = async (roomId) => {
+export const postMembers = async (roomId, names) => {
   try {
-    const response = await client.post(`/rooms_users/invite/${roomId}`);
+    const response = await client.post(`/rooms_users/invite/${roomId}`, {
+      names: names,
+    });
     console.log("멤버 초대");
     return response;
   } catch (err) {
