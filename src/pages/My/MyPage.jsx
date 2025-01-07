@@ -61,7 +61,9 @@ const MyPage = () => {
     <Layout>
       <TopBar />
       <ProfileContainer>
-        <ProfileImage src={`http://172.10.7.69:3000/uploads/${kakaoId}.jpg`} />
+        <ProfileImage
+          src={`https://api.hmhgmg.r-e.kr/uploads/${kakaoId}.jpg`}
+        />
         <ProfileInfo>
           <HLine />
           <strong>{name}</strong>
