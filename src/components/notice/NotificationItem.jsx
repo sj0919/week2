@@ -14,7 +14,8 @@ const Layout = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background-color: rgba(111, 6, 138, 0.05);
+  background-color: var(--purple-thi);
+  width: 355px;
   height: 45px;
   gap: 6px;
   padding: 11px;

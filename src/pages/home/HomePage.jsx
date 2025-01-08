@@ -131,7 +131,8 @@ const TopContainer = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  margin: 30px;
+  margin-top: 40px;
+  margin-bottom: 15px;
   gap: 20px;
 `;
 const TextWrapper = styled.span`

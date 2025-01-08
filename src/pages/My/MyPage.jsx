@@ -97,7 +97,7 @@ const ProfileContainer = styled.div`
   align-items: center;
   margin: 40px 0;
   gap: 16px;
-  margin: 20px;
+  margin: 35px;
 `;
 
 const ProfileImage = styled.img`

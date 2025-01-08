@@ -8,6 +8,7 @@ import { delRoom, getRoomDetail } from "../../api/room";
 import { patchReset } from "../../api/room";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
+import { patchVoteResult } from "../../api/room";
 
 const RoomDetailPage = () => {
   const { roomId } = useParams();
@@ -15,6 +16,7 @@ const RoomDetailPage = () => {
   const [roomName, setRoomName] = useState("");
   const [participants, setParticipants] = useState([]); // names 데이터를 저장할 상태
   const [profile, setProfiles] = useState([]);
+  const [vote, setVote] = useState(0);
   console.log("방아이디", roomId);
 
   // 각 방 정보 읽기 API 연결
@@ -54,9 +56,22 @@ const RoomDetailPage = () => {
     console.log(kakaoId);
   }, []);
 
+  // 투표 결과 확인 API 연결
+  const checkVoteStatus = async () => {
+    try {
+      const response = await patchVoteResult(roomId);
+      const voteStatus = response.data.data.vote;
+      setVote(voteStatus); // vote 값 업데이트
+      console.log("투표 상태:", voteStatus);
+    } catch (err) {
+      console.error("투표 상태 확인 실패:", err);
+    }
+  };
+
   useEffect(() => {
     if (roomId) {
       readRoomDetail();
+      checkVoteStatus();
     }
   }, [roomId]);
 
@@ -137,8 +152,22 @@ const RoomDetailPage = () => {
               결과 확인하러가기
             </MenuButton>
           </ChooseContainer>
+          <ChooseContainer>
+            <Message>메뉴 결과 보고 투표하러가기</Message>
+            <MenuButton onClick={() => navigate(`/vote/${roomId}/${kakaoId}`)}>
+              투표하러가기
+            </MenuButton>
+          </ChooseContainer>
+          <ChooseContainer>
+            <Message>투표 결과 확인하기</Message>
+            <MenuButton
+              onClick={() => navigate(`/vote/result/${roomId}/${kakaoId}`)}
+              disabled={vote === 0} // vote 값이 0이면 버튼 비활성화
+            >
+              {vote === 1 ? "활성화됨" : "비활성화됨"}
+            </MenuButton>
+          </ChooseContainer>
         </ContentsContainer>
-        <ResetButton onClick={resetQuiz}>퀴즈 초기화</ResetButton>
       </ContentContainer>
     </Layout>
   );
@@ -154,16 +183,17 @@ const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 30px;
+  margin-top: 14px;
 `;
 const ContentsContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 375px;
-  height: 600px;
+  height: 500px;
   background-color: var(--purple-thi);
   padding-top: 10px;
+  padding-bottom: 10px;
 `;
 const TopContainer = styled.div`
   display: flex;
@@ -171,6 +201,8 @@ const TopContainer = styled.div`
   justify-content: space-between;
   width: 100%;
   margin-bottom: 20px;
+  background-color: var(--purple-thi);
+  padding: 10px;
 `;
 const TitleContainer = styled.div`
   display: flex;
@@ -202,6 +234,7 @@ const ChooseContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 350px; /* 부모 컨테이너의 너비를 가득 채우도록 설정 */
+  height: 70px;
   box-sizing: border-box; /* 패딩이 전체 너비에 포함되도록 설정 */
   background-color: var(--white);
   margin: 5px;
@@ -211,7 +244,7 @@ const ChooseContainer = styled.div`
 `;
 
 const Message = styled.p`
-  font-size: 18px;
+  font-size: 14px;
   color: var(--black);
   text-align: left; /* 왼쪽 정렬 */
   margin: 0; /* 기본 여백 제거 */
@@ -225,7 +258,7 @@ const MenuButton = styled.button`
   border: 0px solid var(--purple-pri);
   color: var(--black);
   border-radius: 8px;
-  box-shadow: 0px 0px 10px 3px var(--purple-sec); /* 그림자 색상 설정 */
+
   font-size: 14px;
   font-weight: 700;
   cursor: pointer;
@@ -235,11 +268,10 @@ const ResetButton = styled.button`
   margin-top: 10px;
   width: 120px;
   height: 40px;
-  background-color: var(--purple-pri);
-  color: var(--white);
+  color: var(--purple-pri);
+  background-color: var(--purple-thi);
   border: none;
   border-radius: 8px;
-
   font-size: 14px;
   font-weight: 700;
   cursor: pointer;

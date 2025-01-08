@@ -28,6 +28,10 @@ import MyPage from "./pages/My/MyPage";
 import NoticePage from "./pages/notice/NoticePage";
 //멤버 추가초대페이지
 import InviteMemberPage from "./pages/home/InviteMemberPage";
+//투표 페이지
+import VotePage from "./pages/home/votePage";
+//투표 결과 페이지
+import VoteResultPage from "./pages/home/VoteResultPage";
 
 const App = () => {
   return (
@@ -48,6 +52,11 @@ const App = () => {
       <Route path="/notice" element={<NoticePage />} />
       <Route path="/correct/:roomId/:kakaoId" element={<CorrectPage />} />
       <Route path="/wrong/:roomId/:kakaoId" element={<WrongPage />} />
+      <Route path="/vote/:roomId/:kakaoId" element={<VotePage />} />
+      <Route
+        path="/vote/result/:roomId/:kakaoId"
+        element={<VoteResultPage />}
+      />
     </Routes>
   );
 };

@@ -107,3 +107,63 @@ export const patchReset = async (roomId) => {
     throw err;
   }
 };
+
+//회원별 퀴즈
+export const patchQuiz = async (roomId, userId) => {
+  try {
+    const response = await client.patch(
+      `/rooms_users/quiz/${roomId}/${userId}`
+    );
+    console.log("퀴즈", response);
+    return response;
+  } catch (err) {
+    throw err;
+  }
+};
+//랜덤 메뉴 방 DB에 저장
+/*export const patchFinalMenu = async (roomId, menu) => {
+  try {
+    const response = await client.patch(`/rooms/${roomId}`, { menu: menu });
+    console.log("랜덤메뉴 저장 성공", response);
+    return response;
+  } catch (err) {
+    throw err;
+  }
+};
+*/
+
+//회원별 투표
+export const patchUserVote = async (roomId, userId, vote) => {
+  try {
+    const response = await client.patch(
+      `/rooms_users/vote/${roomId}/${userId}`,
+      { vote }
+    );
+    console.log("회원별 투표 결과", response);
+    return response;
+  } catch (err) {
+    throw err;
+  }
+};
+
+//투표 현황 반환
+export const patchVoteResult = async (roomId) => {
+  try {
+    const response = await client.patch(`/rooms/vote/${roomId}`);
+    console.log("투표 현황 반환", response);
+    return response;
+  } catch (err) {
+    throw err;
+  }
+};
+
+//투표 결과 반환
+export const getVoteResult = async (roomId) => {
+  try {
+    const response = await client.get(`/rooms_users/vote/result/${roomId}`);
+    console.log("투표 결과 반환");
+    return response;
+  } catch (err) {
+    throw err;
+  }
+};

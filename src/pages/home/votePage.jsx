@@ -1,20 +1,30 @@
 import styled from "styled-components";
 import BackHeaderComponent from "../../components/common/BackHeaderComponent";
-import Result from "../../assets/home/result_img.png";
-import { useState, useEffect } from "react";
-import { getMenu } from "../../api/room";
-import { useNavigate, useParams } from "react-router";
 import BottomButtonComponent from "../../components/common/BottomButtonComponent";
+import { useState, useEffect } from "react";
+import { getMenu, patchUserVote } from "../../api/room"; // patchUserVote import
+import { useNavigate, useParams } from "react-router";
 
-const ResultPage = () => {
+const VotePage = () => {
   const [result, setResult] = useState([]); // 메뉴 리스트
   const [randomMenu, setRandomMenu] = useState(""); // 선택된 랜덤 메뉴
   const { roomId } = useParams();
   const navigate = useNavigate();
 
+  const [kakaoId, setKakaoId] = useState("");
+
+  useEffect(() => {
+    const kakaoIdFromStorage = localStorage.getItem("kakao_id");
+    console.log("kakao", kakaoIdFromStorage);
+    if (kakaoIdFromStorage) {
+      setKakaoId(kakaoIdFromStorage);
+    }
+    console.log(kakaoId);
+  }, []);
+
   const readMenu = async () => {
     try {
-      const response = await getMenu(roomId);
+      const response = await getMenu(roomId, kakaoId);
       console.log("API Response:", response); // 전체 API 응답 확인
 
       // 메뉴 리스트와 선택된 메뉴 추출
@@ -31,6 +41,18 @@ const ResultPage = () => {
     }
   };
 
+  const handleVote = async (vote) => {
+    try {
+      const response = await patchUserVote(roomId, kakaoId, vote); // 1: 좋다, 0: 안 좋다
+      console.log(`투표 요청: vote=${vote}`);
+      console.log(`투표 ${vote === 1 ? "좋다" : "안 좋다"} 성공:`, response);
+      alert(`"${randomMenu}"에 대한 투표가 완료되었습니다.`);
+    } catch (err) {
+      console.error("투표 실패:", err);
+      alert("투표 중 오류가 발생했습니다. 다시 시도해주세요.");
+    }
+  };
+
   useEffect(() => {
     readMenu();
   }, [roomId]);
@@ -39,9 +61,13 @@ const ResultPage = () => {
     <Layout>
       <BackHeaderComponent />
       <ImageContainer>
-        <Image src={Result} alt="IMAGE" />
+        <Image src="https://via.placeholder.com/375x200" alt="IMAGE" />
         {randomMenu && <RandomMenu>{randomMenu}</RandomMenu>}
       </ImageContainer>
+      <VoteButtons>
+        <VoteButton onClick={() => handleVote(1)}>좋다</VoteButton>
+        <VoteButton onClick={() => handleVote(0)}>안 좋다</VoteButton>
+      </VoteButtons>
       <ResultList>
         <Text>
           <strong>퀴즈 맞춘 사람들이 먹고싶은 메뉴</strong>
@@ -59,7 +85,7 @@ const ResultPage = () => {
   );
 };
 
-export default ResultPage;
+export default VotePage;
 
 const Layout = styled.div`
   display: flex;
@@ -79,9 +105,9 @@ const Image = styled.img`
 
 const RandomMenu = styled.div`
   position: absolute;
-  top: 92%; /* 이미지의 중간 */
-  left: 50%; /* 이미지의 중간 */
-  transform: translate(-50%, -50%); /* 정중앙 정렬 */
+  top: 92%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   font-size: 19px;
   font-weight: bold;
   color: red;
@@ -89,6 +115,26 @@ const RandomMenu = styled.div`
   padding: 6px 6px;
   border-radius: 10px;
   text-align: center;
+`;
+
+const VoteButtons = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 20px;
+`;
+
+const VoteButton = styled.button`
+  font-size: 16px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  &:hover {
+    background-color: #0056b3;
+  }
 `;
 
 const ResultList = styled.ul`

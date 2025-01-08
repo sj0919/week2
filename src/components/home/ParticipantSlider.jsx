@@ -57,8 +57,7 @@ export default ParticipantSlider;
 const Layout = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+-
 `;
 
 const Container = styled.div`
@@ -75,6 +74,7 @@ const Title = styled.div`
   font-weight: bold;
   font-size: 16px;
   padding-bottom: 10px;
+  padding-left: 4px;
 `;
 
 const Slider = styled.div`

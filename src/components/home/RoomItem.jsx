@@ -31,7 +31,7 @@ const ResultItem = styled.button`
   background-color: #ffffff; /* 흰색 배경 */
   border: 0px solid var(--purple-sec); /* 기존 테두리 제거 */
   border-radius: 10px;
-  width: 329px;
+  width: 347px;
   height: 79px;
   padding: 13px;
   margin: 7px;
