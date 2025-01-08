@@ -39,7 +39,7 @@ const Layout = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 160px;
+  margin-top: 200px;
 `;
 
 const ButtonWrapper = styled.div`
