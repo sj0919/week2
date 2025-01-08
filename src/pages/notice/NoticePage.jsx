@@ -61,4 +61,5 @@ const Layout = styled.div`
   display: flex;
   flex-direction: column;
   gap: 3px;
+  align-items: center;
 `;

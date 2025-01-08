@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { patchUserInfo } from "../../api/user";
 import styled from "styled-components";
 import { ReactComponent as Camera } from "../../assets/login/camera.svg";
+import { ReactComponent as On } from "../../assets/home/on_btn.svg";
 import BottomButtonComponent from "../../components/common/BottomButtonComponent";
 import { useNavigate } from "react-router";
 import { api } from "../../api/api";
@@ -148,8 +149,17 @@ const CreateProfilePage = () => {
         <Fieldset>
           <Legend>
             사진촬영
-            <Camera onClick={activateCamera} style={{ cursor: "pointer" }} />
+            <On onClick={activateCamera} style={{ cursor: "pointer" }} />
+            <Camera onClick={takePicture}>사진 촬영하기</Camera>
           </Legend>
+          <Container>
+            <TextContainer>
+              <On />이 버튼 두번 누르면 카메라 실행
+            </TextContainer>
+            <TextContainer>
+              <Camera /> 이 버튼 누르면 사진 촬영
+            </TextContainer>
+          </Container>
           <CameraImageContainer>
             {isCameraActive ? (
               <>
@@ -163,7 +173,6 @@ const CreateProfilePage = () => {
             )}
           </CameraImageContainer>
         </Fieldset>
-        <CameraButton onClick={takePicture}>사진 촬영하기</CameraButton>
       </Form>
       <BottomButtonComponent text="완료" onClick={handleComplete} />
     </Layout>
@@ -173,6 +182,8 @@ export default CreateProfilePage;
 
 const Layout = styled.div`
   display: flex;
+  flex-direction: row;
+  justify-content: center;
 `;
 
 const Form = styled.form`
@@ -182,7 +193,7 @@ const Form = styled.form`
 
 const Fieldset = styled.fieldset`
   border: none;
-  margin-top: 10px;
+  margin-top: 15px;
 `;
 
 const Legend = styled.legend`
@@ -190,6 +201,7 @@ const Legend = styled.legend`
   flex-direction: row;
   align-items: center;
   gap: 7px;
+  font-weight: 600;
 `;
 
 const Textarea = styled.textarea`
@@ -197,7 +209,7 @@ const Textarea = styled.textarea`
   width: 330px;
   height: 20px;
   padding: 10px;
-  border-color: var(--gray-300);
+  border-color: var(--gray-200);
   border-radius: 10px;
   font-size: 15px;
   resize: none;
@@ -205,8 +217,8 @@ const Textarea = styled.textarea`
 
 const CameraImageContainer = styled.div`
   display: flex;
-  width: 330px;
-  height: 330px;
+  width: 350px;
+  height: 280px;
   border-color: var(--gray-300);
   border-radius: 10px;
   overflow: hidden;
@@ -215,14 +227,14 @@ const CameraImageContainer = styled.div`
     width: 100%;
     height: 100%;
   }
-img{
+  img{
     width:100%
     height:100%
     object-fit:cover;
   }
-    button {
-  position: absolute; /* 또는 적절히 설정 */
-  z-index: 10;        /* 부모 요소 위로 올리기 */
+  button {
+    position: absolute; /* 또는 적절히 설정 */
+    z-index: 10;        /* 부모 요소 위로 올리기 */
 }
 `;
 
@@ -232,7 +244,7 @@ const CameraButton = styled.button`
   height: 25px;
   border-radius: 10px;
   border: 1px solid var(--gray-100);
-  margin-top: 10px;
+  margin-left: 10px;
 `;
 const CameraImage = styled.div`
   display: flex;
@@ -240,4 +252,24 @@ const CameraImage = styled.div`
   height: 330px;
   border-color: var(--gray-300);
   border-radius: 10px;
+`;
+
+const TextContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 5px;
+  gap: 10px;
+`;
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  background-color: var(--purple-sec);
+  height: 60px;
+  justify-content: center;
+  border-radius: 10px;
+  padding-left: 10px;
+  font-size: 14px;
+  gap: 5px;
+  margin-bottom: 10px;
 `;

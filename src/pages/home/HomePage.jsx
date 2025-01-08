@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { ReactComponent as TopBar } from "../../assets/home/top_bar.svg";
+import { ReactComponent as TopBanner } from "../../assets/home/top_banner.svg";
 import NavigationBar from "../../components/common/NavigationBar";
 import RoomItem from "../../components/home/RoomItem";
 import { useNavigate } from "react-router";
@@ -10,6 +11,10 @@ import "slick-carousel/slick/slick.css"; // slick 스타일
 import "slick-carousel/slick/slick-theme.css";
 import Banner1 from "../../assets/home/banner1.png";
 import Banner2 from "../../assets/home/banner2.png";
+import Banner3 from "../../assets/home/banner3.png";
+import Banner4 from "../../assets/home/banner4.png";
+import Banner5 from "../../assets/home/banner5.jpg";
+import Banner6 from "../../assets/home/banner6.jpg";
 
 const HomePage = () => {
   const [results, setResults] = useState([]);
@@ -71,12 +76,15 @@ const HomePage = () => {
 
   return (
     <Layout>
-      <TopBar />
+      <TopBanner />
       <SliderWrapper>
         <Slider {...sliderSettings}>
           <BannerImage src={Banner1} alt="배너 1" />
           <BannerImage src={Banner2} alt="배너 2" />
-          <BannerImage src={Banner1} alt="배너 3" />
+          <BannerImage src={Banner3} alt="배너 3" />
+          <BannerImage src={Banner4} alt="배너 4" />
+          <BannerImage src={Banner5} alt="배너 5" />
+          <BannerImage src={Banner6} alt="배너 6" />
         </Slider>
       </SliderWrapper>
       <TopContainer>
@@ -103,10 +111,14 @@ export default HomePage;
 const Layout = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
+  width: 100%;
 `;
 
 const SliderWrapper = styled.div`
-  margin: 0px 0;
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
 `;
 
 const BannerImage = styled.img`
