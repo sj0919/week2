@@ -4,7 +4,7 @@ import BottomButtonComponent from "../../components/common/BottomButtonComponent
 import { useState, useEffect } from "react";
 import { getMenu, patchUserVote } from "../../api/room"; // patchUserVote import
 import { useNavigate, useParams } from "react-router";
-
+import Vote from "../../assets/home/vote.jpg";
 const VotePage = () => {
   const [result, setResult] = useState([]); // 메뉴 리스트
   const [randomMenu, setRandomMenu] = useState(""); // 선택된 랜덤 메뉴
@@ -61,7 +61,7 @@ const VotePage = () => {
     <Layout>
       <BackHeaderComponent />
       <ImageContainer>
-        <Image src="https://via.placeholder.com/375x200" alt="IMAGE" />
+        <Image src={Vote} alt="IMAGE" />
         {randomMenu && <RandomMenu>{randomMenu}</RandomMenu>}
       </ImageContainer>
       <VoteButtons>
@@ -94,7 +94,7 @@ const Layout = styled.div`
 
 const ImageContainer = styled.div`
   position: relative;
-  margin-top: 100px;
+  margin-top: 80px;
   width: 375px;
   height: auto;
 `;
@@ -130,7 +130,7 @@ const VoteButton = styled.button`
   border: none;
   border-radius: 10px;
   cursor: pointer;
-  background-color: #007bff;
+  background-color: var(--purple-pri);
   color: white;
   &:hover {
     background-color: #0056b3;

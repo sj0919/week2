@@ -90,7 +90,7 @@ export const getRandomPic = async (roomId) => {
 export const getMenu = async (roomId) => {
   try {
     const response = await client.get(`/rooms_users/${roomId}/quiznommenu`);
-    console.log("퀴즈 맞춘놈 메뉴 리스트");
+    console.log("퀴즈 맞춘놈 메뉴 리스트", response);
     return response;
   } catch (err) {
     throw err;
@@ -109,10 +109,11 @@ export const patchReset = async (roomId) => {
 };
 
 //회원별 퀴즈
-export const patchQuiz = async (roomId, userId) => {
+export const patchQuiz = async (roomId, userId, quiz) => {
   try {
     const response = await client.patch(
-      `/rooms_users/quiz/${roomId}/${userId}`
+      `/rooms_users/quiz/${roomId}/${userId}`,
+      { quiz: quiz }
     );
     console.log("퀴즈", response);
     return response;
