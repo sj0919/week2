@@ -128,8 +128,7 @@ const RoomDetailPage = () => {
             <MenuButton
               onClick={() => navigate(`/inputmenu/${roomId}/${kakaoId}`)}
             >
-              메뉴
-              <br /> 입력하기
+              메뉴 입력
             </MenuButton>
           </ChooseContainer>
           <ChooseContainer>
@@ -140,7 +139,7 @@ const RoomDetailPage = () => {
             <MenuButton
               onClick={() => navigate(`/namequiz/${roomId}/${kakaoId}`)}
             >
-              퀴즈 풀러가기
+              퀴즈 풀기
             </MenuButton>
           </ChooseContainer>
           <ChooseContainer>
@@ -149,13 +148,13 @@ const RoomDetailPage = () => {
               확인하고싶다면?
             </Message>
             <MenuButton onClick={() => navigate(`/result/${roomId}`)}>
-              결과 확인하러가기
+              결과 확인
             </MenuButton>
           </ChooseContainer>
           <ChooseContainer>
-            <Message>메뉴 결과 보고 투표하러가기</Message>
+            <Message>메뉴 결과 보고 투표를 하고싶다면?</Message>
             <MenuButton onClick={() => navigate(`/vote/${roomId}/${kakaoId}`)}>
-              투표하러가기
+              투표하기
             </MenuButton>
           </ChooseContainer>
           <ChooseContainer>
@@ -164,7 +163,7 @@ const RoomDetailPage = () => {
               onClick={() => navigate(`/vote/result/${roomId}/${kakaoId}`)}
               disabled={vote === 0} // vote 값이 0이면 버튼 비활성화
             >
-              {vote === 1 ? "활성화됨" : "비활성화됨"}
+              {vote === 1 ? <A>활성화됨</A> : <B>비활성화됨</B>}
             </MenuButton>
           </ChooseContainer>
         </ContentsContainer>
@@ -217,6 +216,7 @@ const IconsContainer = styled.div`
 const RoomName = styled.span`
   font-size: 18px;
   font-weight: bold;
+  color: var(--purple-pri);
 `;
 
 const ExitIcon = styled(Exit)`
@@ -248,19 +248,18 @@ const Message = styled.p`
   color: var(--black);
   text-align: left; /* 왼쪽 정렬 */
   margin: 0; /* 기본 여백 제거 */
-  font-weight: 700;
 `;
 
 const MenuButton = styled.button`
-  width: 100px; /* 버튼 너비 조정 */
-  height: 52px;
-  background-color: var(--white);
+  width: 80px; /* 버튼 너비 조정 */
+  height: 45px;
+  background-color: var(--purple-sec);
   border: 0px solid var(--purple-pri);
   color: var(--black);
   border-radius: 8px;
 
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 600;
   cursor: pointer;
 `;
 
@@ -275,4 +274,11 @@ const ResetButton = styled.button`
   font-size: 14px;
   font-weight: 700;
   cursor: pointer;
+`;
+
+const A = styled.div`
+  color: var(--red);
+`;
+const B = styled.div`
+  color: var(--red);
 `;

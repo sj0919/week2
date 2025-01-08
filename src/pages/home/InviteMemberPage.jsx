@@ -148,7 +148,10 @@ const InviteButton = styled.button`
   margin-right: 8px;
 `;
 
-const MemberItemContainer = styled.div``;
+const MemberItemContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 
 const MemberContainer = styled.div`
   display: flex;

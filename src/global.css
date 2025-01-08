@@ -4,6 +4,7 @@
   --black: #021001;
 
   --red: #ff6161;
+  --blue: #112592;
 
   --purple-pri: #6f068a;
   --purple-sec: #6f068a0d;
@@ -23,7 +24,7 @@
   display: none;
 }
 * {
-  font-family: Arial;
+  font-family: Presentation;
 }
 #root {
   width: 375px;
@@ -34,4 +35,8 @@
   #root {
     width: 100svw;
   }
+}
+@font-face {
+  font-family: "Presentation";
+  src: url("../public/fonts/NotoSansKR-Medium.ttf") format("truetype");
 }

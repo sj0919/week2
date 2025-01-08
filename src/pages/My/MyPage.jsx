@@ -88,21 +88,20 @@ export default MyPage;
 const Layout = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
 `;
 
 const ProfileContainer = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   margin: 40px 0;
   gap: 16px;
-  margin: 35px;
+  margin: 45px;
 `;
 
 const ProfileImage = styled.img`
-  width: 150px;
-  height: 150px;
+  width: 170px;
+  height: 170px;
   border-radius: 50%;
   background-color: var(--gray-200);
 `;
@@ -117,8 +116,8 @@ const ProfileInfo = styled.div`
 
 const HLine = styled.div`
   display: flex;
-  border: 1px solid var(--gray-200);
-  width: 140px;
+  border: 0.5px solid var(--gray-200);
+  width: 150px;
   margin: 10px;
 `;
 
@@ -136,20 +135,21 @@ const Greeting = styled.span`
 const ButtonContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  margin-top: 400px;
+  align-items: flex-start; /* Align items to the left */
+  margin-top: 200px;
   gap: 10px;
+  width: 100%; /* Ensure the container spans the full width */
+  padding-left: 30px; /* Add some padding for consistent alignment */
 `;
 
 const Button = styled.button`
   background: none;
   border: none;
-  font-size: 14px;
-  font-weight: 700;
-  width: 100%; /* Ensure button spans the container */
-  max-width: 200px; /* Optional, for button width control */
-  text-align: left; /* Align text to the left */
-  margin-left: auto; /* Push buttons to the left side */
+  font-size: 15px;
+  font-weight: 600;
+  text-align: left; /* Ensure the text is aligned to the left */
+  width: 100%; /* Optional: full-width buttons for consistency */
+  max-width: 200px; /* Control button width */
 `;
 
 const ButtonPurple = styled(Button)`

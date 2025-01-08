@@ -22,7 +22,8 @@ export default MemberItem;
 const Layout = styled.div`
   display: flex;
   align-items: center;
-  padding: 10px;
+  padding-left: 10px;
+  padding-top: 8px;
   border-radius: 8px;
   background-color: #fff;
 `;

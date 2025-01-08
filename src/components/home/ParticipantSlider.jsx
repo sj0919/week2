@@ -1,19 +1,21 @@
 import React from "react";
 import styled from "styled-components";
 import { ReactComponent as Alarm } from "../../assets/home/alarm_icn.svg";
-import { postUser } from "../../api/user";
+import { postAlim } from "../../api/notice"; // Use the correct API call
 
 const ParticipantSlider = ({ names = [], profiles = [], roomId }) => {
   const handleAlarmClick = async (userId1, userId2) => {
     try {
-      const response = await postUser(roomId, userId1, userId2);
-      console.log("멤버 호출 완료:", response.data);
+      const response = await postAlim(roomId, userId1, userId2); // Call the notification API
+      const { room_name, user1_name, user2_name } = response.data.data;
+
+      console.log("Notification Sent:", response.data);
       alert(
-        `${response.data.data.user1_name}님이 ${response.data.data.user2_name}님을 호출했습니다!`
+        `${user1_name}님이 ${user2_name}님을 호출했습니다! (방 이름: ${room_name})`
       );
     } catch (err) {
-      console.error("멤버 호출 실패:", err);
-      alert("멤버 호출에 실패했습니다.");
+      console.error("Notification Failed:", err);
+      alert("호출에 실패했습니다. 다시 시도해주세요.");
     }
   };
 
@@ -34,8 +36,8 @@ const ParticipantSlider = ({ names = [], profiles = [], roomId }) => {
                     <AlarmIcon
                       onClick={() =>
                         handleAlarmClick(
-                          profiles[index], // 호출자 userId1
-                          profiles[(index + 1) % profiles.length] // 호출 대상 userId2
+                          profiles[index], // Sender userId
+                          profiles[(index + 1) % profiles.length] // Receiver userId
                         )
                       }
                     />
@@ -57,7 +59,6 @@ export default ParticipantSlider;
 const Layout = styled.div`
   display: flex;
   flex-direction: column;
--
 `;
 
 const Container = styled.div`

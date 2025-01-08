@@ -76,7 +76,7 @@ const HomePage = () => {
 
   return (
     <Layout>
-      <TopBanner />
+      <TopBar />
       <SliderWrapper>
         <Slider {...sliderSettings}>
           <BannerImage src={Banner1} alt="배너 1" />
@@ -137,7 +137,6 @@ const TopContainer = styled.div`
 `;
 const TextWrapper = styled.span`
   size: 16px;
-  font-weight: 600;
 `;
 const ButtonWrapper = styled.button`
   width: 62px;
