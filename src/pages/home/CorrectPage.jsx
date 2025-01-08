@@ -26,4 +26,5 @@ const Layout = styled.div`
 `;
 const Image = styled.img`
   width: 375px;
+  margin-top: 150px;
 `;
