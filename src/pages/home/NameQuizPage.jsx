@@ -53,7 +53,7 @@ const NameQuizPage = () => {
           ></ImageWrapper>
           <Text>이사람의 이름은?</Text>
           <Textarea
-            placeholder="이름 입력"
+            placeholder="입력!!"
             value={userInput}
             onChange={(e) => setUserInput(e.target.value)}
           ></Textarea>
@@ -76,8 +76,9 @@ const ContentContainer = styled.div`
   margin-top: 30px;
 `;
 const Text = styled.span`
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--purple-pri);
 `;
 const QuizContainer = styled.div`
   display: flex;
@@ -88,23 +89,24 @@ const QuizContainer = styled.div`
 `;
 const ImageWrapper = styled.img`
   display: flex;
-  width: 178px;
-  height: 178px;
+  width: 240px;
+  height: 240px;
   object-fit: cover;
   border-radius: 50%;
   background-color: var(--gray-200);
+  margin-bottom: 40px;
 `;
 const Textarea = styled.textarea`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 80px;
+  width: 76px;
   height: 24px;
   resize: none;
   border-radius: 10px;
   border: 1px solid var(--gray-300);
   padding-top: 7px;
-  padding-left: 18px;
+  padding-left: 33px;
   &::placeholder {
     color: var(--gray-300);
     font-size: 14px;

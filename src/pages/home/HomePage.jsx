@@ -118,7 +118,7 @@ const Layout = styled.div`
 const SliderWrapper = styled.div`
   width: 100%;
   max-width: 420px;
-  margin: 0 auto;
+  margin-top: 8px;
 `;
 
 const BannerImage = styled.img`

@@ -136,9 +136,8 @@ const Greeting = styled.span`
 const ButtonContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   margin-top: 400px;
-  margin-left: 20px;
   gap: 10px;
 `;
 
@@ -147,6 +146,10 @@ const Button = styled.button`
   border: none;
   font-size: 14px;
   font-weight: 700;
+  width: 100%; /* Ensure button spans the container */
+  max-width: 200px; /* Optional, for button width control */
+  text-align: left; /* Align text to the left */
+  margin-left: auto; /* Push buttons to the left side */
 `;
 
 const ButtonPurple = styled(Button)`

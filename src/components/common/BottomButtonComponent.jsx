@@ -16,6 +16,7 @@ const Layout = styled.div`
   align-items: center;
   position: fixed;
   bottom: 0;
+  margin-left: 3px;
 `;
 const Button = styled.button`
   width: 355px;

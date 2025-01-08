@@ -65,8 +65,8 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  width: 330px;
-  border: 1px solid var(--gray-300);
+  width: 334px;
+  border: 1px solid var(--gray-200);
   border-radius: 10px;
   padding: 8px;
 `;

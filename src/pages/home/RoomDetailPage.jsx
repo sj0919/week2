@@ -2,6 +2,7 @@ import styled from "styled-components";
 import BackHeaderComponent from "../../components/common/BackHeaderComponent";
 import ParticipantSlider from "../../components/home/ParticipantSlider";
 import { ReactComponent as Exit } from "../../assets/home/exit.svg";
+import { ReactComponent as AddUser } from "../../assets/home/add_user.svg";
 import { useNavigate } from "react-router";
 import { delRoom, getRoomDetail } from "../../api/room";
 import { patchReset } from "../../api/room";
@@ -90,11 +91,11 @@ const RoomDetailPage = () => {
         <TopContainer>
           <TitleContainer>
             <RoomName>{roomName}</RoomName>
-            <InviteButton onClick={() => navigate(`/invitemember/${roomId}`)}>
-              멤버 초대
-            </InviteButton>
           </TitleContainer>
-          <ExitIcon onClick={deleteRoom} />
+          <IconsContainer>
+            <AddUser onClick={() => navigate(`/invitemember/${roomId}`)} />
+            <ExitIcon onClick={deleteRoom} />
+          </IconsContainer>
         </TopContainer>
         <ParticipantSliderContainer>
           <ParticipantSlider
@@ -103,25 +104,40 @@ const RoomDetailPage = () => {
             roomId={roomId}
           />
         </ParticipantSliderContainer>
-        <ChooseContainer>
-          <Message>
-            식사자리, 회식자리, <br />
-            뭐먹을지 못정하겠다면?
-          </Message>
-          <MenuButton
-            onClick={() => navigate(`/inputmenu/${roomId}/${kakaoId}`)}
-          >
-            메뉴
-            <br /> 입력하기
-          </MenuButton>
-        </ChooseContainer>
-
-        <MenuButton onClick={() => navigate(`/namequiz/${roomId}/${kakaoId}`)}>
-          퀴즈 풀러가기
-        </MenuButton>
-        <MenuButton onClick={() => navigate(`/result/${roomId}`)}>
-          결과 확인하러가기
-        </MenuButton>
+        <ContentsContainer>
+          <ChooseContainer>
+            <Message>
+              식사자리, 회식자리, <br />
+              뭐먹을지 못정하겠다면?
+            </Message>
+            <MenuButton
+              onClick={() => navigate(`/inputmenu/${roomId}/${kakaoId}`)}
+            >
+              메뉴
+              <br /> 입력하기
+            </MenuButton>
+          </ChooseContainer>
+          <ChooseContainer>
+            <Message>
+              팀원이 메뉴를
+              <br />다 입력했다면?
+            </Message>
+            <MenuButton
+              onClick={() => navigate(`/namequiz/${roomId}/${kakaoId}`)}
+            >
+              퀴즈 풀러가기
+            </MenuButton>
+          </ChooseContainer>
+          <ChooseContainer>
+            <Message>
+              메뉴 결과를 <br />
+              확인하고싶다면?
+            </Message>
+            <MenuButton onClick={() => navigate(`/result/${roomId}`)}>
+              결과 확인하러가기
+            </MenuButton>
+          </ChooseContainer>
+        </ContentsContainer>
         <ResetButton onClick={resetQuiz}>퀴즈 초기화</ResetButton>
       </ContentContainer>
     </Layout>
@@ -140,6 +156,15 @@ const ContentContainer = styled.div`
   align-items: center;
   margin-top: 30px;
 `;
+const ContentsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 375px;
+  height: 600px;
+  background-color: var(--purple-thi);
+  padding-top: 10px;
+`;
 const TopContainer = styled.div`
   display: flex;
   align-items: center;
@@ -152,19 +177,14 @@ const TitleContainer = styled.div`
   align-items: center;
   gap: 10px;
 `;
+const IconsContainer = styled.div`
+  display: flex;
+  gap: 15px;
+  align-items: center;
+`;
 const RoomName = styled.span`
   font-size: 18px;
   font-weight: bold;
-`;
-
-const InviteButton = styled.button`
-  background-color: var(--purple-pri);
-  color: var(--white);
-  border: none;
-  border-radius: 8px;
-  padding: 6px 12px;
-  font-size: 14px;
-  cursor: pointer;
 `;
 
 const ExitIcon = styled(Exit)`
@@ -173,40 +193,49 @@ const ExitIcon = styled(Exit)`
 
 const ParticipantSliderContainer = styled.div`
   width: 100%;
-  margin-left: 10px;
-`;
 
+  margin-bottom: 17px;
+`;
 const ChooseContainer = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   align-items: center;
-  gap: 20px;
+  width: 350px; /* 부모 컨테이너의 너비를 가득 채우도록 설정 */
+  box-sizing: border-box; /* 패딩이 전체 너비에 포함되도록 설정 */
+  background-color: var(--white);
+  margin: 5px;
+  border: 1px solid var(--purple-sec);
+  padding: 18px;
+  border-radius: 10px;
 `;
+
 const Message = styled.p`
   font-size: 18px;
   color: var(--black);
-  text-align: center;
-  margin-bottom: 20px;
+  text-align: left; /* 왼쪽 정렬 */
+  margin: 0; /* 기본 여백 제거 */
   font-weight: 700;
 `;
 
 const MenuButton = styled.button`
-  width: 86px;
+  width: 100px; /* 버튼 너비 조정 */
   height: 52px;
-  background-color: var(--purple-pri);
-  color: var(--white);
-  border: none;
+  background-color: var(--white);
+  border: 0px solid var(--purple-pri);
+  color: var(--black);
   border-radius: 8px;
-
+  box-shadow: 0px 0px 10px 3px var(--purple-sec); /* 그림자 색상 설정 */
   font-size: 14px;
   font-weight: 700;
   cursor: pointer;
 `;
+
 const ResetButton = styled.button`
-  margin-top: 20px;
+  margin-top: 10px;
   width: 120px;
   height: 40px;
-  background-color: var(--red);
+  background-color: var(--purple-pri);
   color: var(--white);
   border: none;
   border-radius: 8px;
